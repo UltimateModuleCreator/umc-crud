@@ -1,0 +1,32 @@
+<?php
+/**
+ * Umc_Crud extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ *
+ * @category  Umc
+ * @package   Umc_Crud
+ * @copyright 2020 Marius Strajeru
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
+ * @author    Marius Strajeru
+ */
+?>
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+<?php /** @var \Umc\Crud\ViewModel\Heartbeat $heartbeat */ ?>
+<?php $heartbeat = $block->getData('heartbeat'); ?>
+<?php if ($heartbeat) : ?>
+    <script type="text/x-magento-init">
+    {
+        "*": {
+            "Umc_Crud/js/heartbeat": {
+                "url": "<?= /* @noEscape */ $block->escapeUrl($heartbeat->getUrl()); ?>"
+            }
+        }
+    }
+</script>
+<?php endif;

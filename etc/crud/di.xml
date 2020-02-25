@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Umc_Crud extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ *
+ * @category  Umc
+ * @package   Umc_Crud
+ * @copyright 2020 Marius Strajeru
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
+ * @author    Marius Strajeru
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Code\Generator">
+        <arguments>
+            <argument name="generatedEntities" xsi:type="array">
+                <item name="uiManager" xsi:type="string">\Umc\Crud\Generator\UiManager</item>
+                <item name="listRepo" xsi:type="string">\Umc\Crud\Generator\ListRepo</item>
+                <item name="repo" xsi:type="string">\Umc\Crud\Generator\Repo</item>
+                <item name="uiCollectionProvider" xsi:type="string">\Umc\Crud\Generator\UiCollectionProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
