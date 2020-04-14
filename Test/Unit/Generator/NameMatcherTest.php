@@ -64,7 +64,7 @@ class NameMatcherTest extends TestCase
      */
     public function testGetResourceClassName()
     {
-        $expected = '\Namespace\Module\Model\ResourceModel\Entity';
+        $expected = 'Namespace\Module\Model\ResourceModel\Entity';
         $model = '\Namespace\Module\Model\Entity';
         $this->assertEquals($expected, $this->nameMatcher->getResourceClassName($model));
     }
@@ -84,7 +84,7 @@ class NameMatcherTest extends TestCase
      */
     public function testGetCollectionClass()
     {
-        $expected = '\Namespace\Module\Model\ResourceModel\Entity\Collection';
+        $expected = 'Namespace\Module\Model\ResourceModel\Entity\Collection';
         $model = '\Namespace\Module\Model\Entity';
         $this->assertEquals($expected, $this->nameMatcher->getCollectionClass($model));
     }
@@ -94,7 +94,7 @@ class NameMatcherTest extends TestCase
      */
     public function testGetCollectionFactoryClass()
     {
-        $expected = '\Namespace\Module\Model\ResourceModel\Entity\CollectionFactory';
+        $expected = 'Namespace\Module\Model\ResourceModel\Entity\CollectionFactory';
         $model = '\Namespace\Module\Model\Entity';
         $this->assertEquals($expected, $this->nameMatcher->getCollectionFactoryClass($model));
     }
@@ -104,7 +104,7 @@ class NameMatcherTest extends TestCase
      */
     public function testGetSearchResultsClass()
     {
-        $expected = '\Namespace\Module\Api\Data\EntitySearchResultsInterface';
+        $expected = 'Namespace\Module\Api\Data\EntitySearchResultsInterface';
         $model = '\Namespace\Module\Model\Entity';
         $this->assertEquals($expected, $this->nameMatcher->getSearchResultsClass($model));
     }
@@ -114,7 +114,7 @@ class NameMatcherTest extends TestCase
      */
     public function testGetSearchResultFactory()
     {
-        $expected = '\Namespace\Module\Api\Data\EntitySearchResultsInterfaceFactory';
+        $expected = 'Namespace\Module\Api\Data\EntitySearchResultsInterfaceFactory';
         $model = '\Namespace\Module\Model\Entity';
         $this->assertEquals($expected, $this->nameMatcher->getSearchResultFactory($model));
     }

@@ -26,6 +26,7 @@ use Magento\Framework\Code\Generator\CodeGeneratorInterface;
 use Magento\Framework\Code\Generator\DefinedClasses;
 use Magento\Framework\Code\Generator\EntityAbstract;
 use Magento\Framework\Code\Generator\Io;
+use Umc\Crud\Model\ResourceModel\StoreAwareAbstractModel;
 
 class ListRepo extends EntityAbstract
 {
@@ -76,7 +77,20 @@ class ListRepo extends EntityAbstract
             ],
             'body' => '    $this->searchResultsFactory = $searchResultsFactory; ' . "\n" .
                 '$this->collectionFactory = $collectionFactory;',
-            'docblock' => [],
+            'docblock' => [
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => '\\' . $this->nameMatcher->getSearchResultFactory($this->getSourceClassName())
+                            . ' $searchResultsFactory',
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => '\\' . $this->nameMatcher->getCollectionFactoryClass($this->getSourceClassName())
+                            . ' $collectionFactory',
+                    ]
+                ]
+            ],
         ];
     }
 
@@ -148,7 +162,7 @@ class ListRepo extends EntityAbstract
                 ],
             ],
         ];
-        return [$this->_getDefaultConstructorDefinition(), $getList];
+        return [$this->_getDefaultConstructorDefinition(), $getList, $this->getAddFilterGroupToCollectionConfig()];
     }
 
     /**
@@ -157,7 +171,7 @@ class ListRepo extends EntityAbstract
     protected function _getClassProperties()
     {
         $searchResultsFactory = [
-            'name' => 'searchResultFactory',
+            'name' => 'searchResultsFactory',
             'visibility' => 'private',
             'docblock' => [
                 'tags' => [
@@ -186,4 +200,74 @@ class ListRepo extends EntityAbstract
         return [$searchResultsFactory, $collectionFactory];
     }
     //phpcs: enable
+
+    /**
+     * @return array
+     */
+    private function getAddFilterGroupToCollectionConfig()
+    {
+        $sourceClass = $this->getSourceClassName();
+        $body = '    $fields = [];' . "\n";
+        $body .= '$conditions = []; ' . "\n";
+        $resourceModel = $this->nameMatcher->getResourceClassName($sourceClass);
+        $body .= 'foreach ($filterGroup->getFilters() as $filter) {' . "\n";
+        if (is_subclass_of($resourceModel, StoreAwareAbstractModel::class, true)) {
+            $body .= '    if ($filter->getField() === \'store_id\') {' . "\n";
+            $body .= '       $collection->addStoreFilter($filter->getValue(), true);' . "\n";
+            $body .= '    } else {' . "\n";
+            $body .= $this->getFilterConditions(8);
+            $body .= '    }';
+        } else {
+            $body .= $this->getFilterConditions(4);
+        }
+        $body .= '}' . "\n";
+        $body .= 'if ($fields) {' . "\n";
+        $body .= '    $collection->addFieldToFilter($fields, $conditions);' . "\n";
+        $body .= '}' . "\n";
+        $body .= 'return $this;' . "\n";
+        return [
+            'name' => 'addFilterGroupToCollection',
+            'parameters' => [
+                [
+                    'name' => 'filterGroup',
+                    'type' => '\\' . \Magento\Framework\Api\Search\FilterGroup::class,
+                ],
+                [
+                    'name' => 'collection',
+                    'type' => '\\' . $this->nameMatcher->getCollectionClass($sourceClass),
+                ],
+            ],
+            'body' => $body,
+            'docblock' => [
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => '\\' . \Magento\Framework\Api\Search\FilterGroup::class . ' $filterGroup'
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => '\\' . $this->nameMatcher->getCollectionClass($sourceClass) . ' $collection'
+                    ],
+                    [
+                        'name' => 'return',
+                        'description' => '$this'
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param $indent
+     * @return string
+     */
+    private function getFilterConditions($indent)
+    {
+        $padd = str_repeat(' ', $indent);
+        $text = $padd . '$condition = $filter->getConditionType() ? $filter->getConditionType() : \'eq\';' . "\n";
+        $text .= $padd . '$fields[] = $filter->getField();' . "\n";
+        $text .= $padd . '$conditions[] = [$condition => $filter->getValue()];' . "\n";
+        return $text;
+    }
+
 }

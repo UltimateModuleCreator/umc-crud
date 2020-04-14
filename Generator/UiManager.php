@@ -103,7 +103,7 @@ class UiManager extends EntityAbstract
             'docblock' => [
                 'tags' => [
                     ['name' => 'var',
-                        'description' => '\\' . $this->nameMatcher->getInterfaceName($this->getSourceClassName())
+                        'description' => $this->nameMatcher->getInterfaceName($this->getSourceClassName())
                     ]
                 ],
             ],
@@ -112,7 +112,7 @@ class UiManager extends EntityAbstract
             'name' => 'factory',
             'visibility' => 'factory',
             'docblock' => [
-                'tags' => [['name' => 'var', 'description' => '\\' . $this->getSourceClassName() . 'Factory']],
+                'tags' => [['name' => 'var', 'description' => $this->getSourceClassName() . 'Factory']],
             ],
         ];
 
@@ -168,7 +168,7 @@ class UiManager extends EntityAbstract
                 'tags' => [
                     [
                         'name' => 'param',
-                        'description' => AbstractModel::class . ' $entity'
+                        'description' => '\\' . AbstractModel::class . ' $entity'
                     ],
                     [
                         'name' => 'throws',
