@@ -62,7 +62,7 @@ class NameMatcher
         if (!isset($this->cache['resource'][$class])) {
             $parts = explode('\\', $class);
             $parts[2] = 'Model\ResourceModel'; //replace 'Model' with 'Model\ResourceModel';
-            $this->cache['resource'][$class] = '\\' . implode('\\', $parts);
+            $this->cache['resource'][$class] = implode('\\', $parts);
         }
         return $this->cache['resource'][$class];
     }
@@ -110,7 +110,7 @@ class NameMatcher
         if (!isset($this->cache['search_results'][$class])) {
             $parts = explode('\\', $class);
             $parts[2] = 'Api\Data'; //replace 'Model' with 'Api\Data';
-            $this->cache['search_results'][$class] = '\\' . implode('\\', $parts) . 'SearchResultsInterface';
+            $this->cache['search_results'][$class] = implode('\\', $parts) . 'SearchResultsInterface';
         }
         return $this->cache['search_results'][$class];
     }

@@ -70,11 +70,25 @@ class Repo extends EntityAbstract
                 ],
                 [
                     'name' => 'resource',
-                    'type' => $this->nameMatcher->getResourceClassName($this->getSourceClassName()),
+                    'type' => '\\' . $this->nameMatcher->getResourceClassName($this->getSourceClassName()),
                 ]
             ],
             'body' => "\t" . '$this->factory = $factory; ' . "\n" . '$this->resource = $resource;',
-            'docblock' => [],
+            'docblock' => [
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => $this->nameMatcher->getInterfaceFactoryClass($this->getSourceClassName()) .
+                            ' $factory'
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => '\\' .
+                            $this->nameMatcher->getResourceClassName($this->getSourceClassName()) .
+                            ' $resource'
+                    ],
+                ]
+            ],
         ];
     }
 
@@ -99,7 +113,8 @@ class Repo extends EntityAbstract
             $this->getSaveMethodConfig(),
             $this->getGetMethodConfig(),
             $this->getDeleteMethodConfig(),
-            $this->getDeleteByIdMethodConfig()
+            $this->getDeleteByIdMethodConfig(),
+            $this->getClearMethodConfig()
         ];
     }
 
@@ -127,7 +142,7 @@ class Repo extends EntityAbstract
                 'tags' => [
                     [
                         'name' => 'var',
-                        'description' => $this->nameMatcher->getResourceClassName($this->getSourceClassName())
+                        'description' => '\\' . $this->nameMatcher->getResourceClassName($this->getSourceClassName())
                     ]
                 ],
             ],
@@ -225,6 +240,7 @@ class Repo extends EntityAbstract
                 ],
             ],
             'body' => '    try {' . "\n" .
+                '    $id = $entity->getId();' . "\n" .
                 '    $this->resource->delete($entity);' . "\n" .
                 '    unset($this->cache[$id]);' . "\n" .
                 '} catch (\Exception $exception) {' . "\n" .
@@ -236,6 +252,9 @@ class Repo extends EntityAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     private function getDeleteByIdMethodConfig()
     {
         return [
@@ -275,6 +294,9 @@ class Repo extends EntityAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     private function getSaveMethodConfig()
     {
         $interface = $this->nameMatcher->getInterfaceName($this->getSourceClassName());
@@ -310,6 +332,20 @@ class Repo extends EntityAbstract
                 '    );' . "\n" .
                 '}' . "\n" .
                 'return $entity;'
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getClearMethodConfig()
+    {
+        return [
+            'name' => 'clear',
+            'body' => '    $this->cache = [];',
+            'docblock' => [
+                'shortDescription' => 'clear the loaded entities'
+            ]
         ];
     }
 }

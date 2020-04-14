@@ -69,7 +69,8 @@ class UiCollectionProvider extends EntityAbstract
                     'tags' => [
                         [
                             'name' => 'var',
-                            'description' => $this->nameMatcher->getCollectionFactoryClass($this->getSourceClassName())
+                            'description' => '\\' .
+                                $this->nameMatcher->getCollectionFactoryClass($this->getSourceClassName())
                         ]
                     ],
                 ],
@@ -91,7 +92,16 @@ class UiCollectionProvider extends EntityAbstract
                 ]
             ],
             'body' => "\t" . '$this->factory = $factory;' . "\n",
-            'docblock' => [],
+            'docblock' => [
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => '\\' .
+                            $this->nameMatcher->getCollectionFactoryClass($this->getSourceClassName()) .
+                            ' $factory'
+                    ]
+                ]
+            ],
         ];
     }
 
