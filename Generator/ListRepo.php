@@ -99,14 +99,10 @@ class ListRepo extends EntityAbstract
      */
     protected function _generateCode()
     {
-        try {
-            $this->_classGenerator->setImplementedInterfaces([
-                $this->nameMatcher->getListRepoInterface($this->getSourceClassName())
-            ]);
-            return parent::_generateCode();
-        } catch (\Exception $e) {
-            echo $e->getMessage();exit;
-        }
+        $this->_classGenerator->setImplementedInterfaces([
+            $this->nameMatcher->getListRepoInterface($this->getSourceClassName())
+        ]);
+        return parent::_generateCode();
     }
 
     /**
