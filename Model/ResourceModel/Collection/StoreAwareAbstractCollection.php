@@ -107,7 +107,7 @@ class StoreAwareAbstractCollection extends AbstractCollection
     /**
      * @throws \Exception
      */
-    public function _renderFiltersBefore()
+    protected function _renderFiltersBefore()
     {
         $entityMetadata = $this->metadataPool->getMetadata($this->interfaceClass);
         $this->storeResource->joinStoreRelationTable($this, $this->storeTable, $entityMetadata->getLinkField());

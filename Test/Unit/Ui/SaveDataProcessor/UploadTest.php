@@ -47,10 +47,6 @@ class UploadTest extends TestCase
      * @var LoggerInterface | MockObject
      */
     private $logger;
-    /**
-     * @var Upload
-     */
-    private $upload;
 
     /**
      * setup tests
@@ -61,13 +57,6 @@ class UploadTest extends TestCase
         $this->fileInfo = $this->createMock(FileInfo::class);
         $this->filesystem = $this->createMock(Filesystem::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->upload = new Upload(
-            ['field1', 'field2', 'field3', 'field4'],
-            $this->uploader,
-            $this->fileInfo,
-            $this->filesystem,
-            $this->logger
-        );
     }
 
     /**
@@ -79,24 +68,43 @@ class UploadTest extends TestCase
      */
     public function testModifyData()
     {
+        $this->fileInfo->method('getFilePath')->willReturnArgument(0);
+        $upload = new Upload(
+            ['field1', 'field2', 'field3', 'field4'],
+            $this->uploader,
+            $this->fileInfo,
+            $this->filesystem,
+            $this->logger,
+            false
+        );
+        $uploadStrict = new Upload(
+            ['field1', 'field2', 'field3', 'field4'],
+            $this->uploader,
+            $this->fileInfo,
+            $this->filesystem,
+            $this->logger,
+            true
+        );
         $data = [
             'field1' => [
                 [
                     'tmp_name' => 'tmp_name',
                     'file' => 'file1',
-                    'url' => 'path/url'
+                    'url' => 'path/url',
+                    'name' => 'path/url'
                 ]
             ],
             'field2' => [
                 [
-                    'url' => 'value2'
+                    'url' => 'value2',
+                    'name' => 'value2'
                 ]
             ],
             'field3' => [],
             'dummy' => 'dummy'
         ];
         $this->filesystem->method('getUri')->willReturn('path');
-        $this->uploader->expects($this->once())->method('moveFileFromTmp')->willReturn('tmp_moved');
+        $this->uploader->method('moveFileFromTmp')->willReturn('tmp_moved');
 
         $expected = [
             'field1' => 'tmp_moved',
@@ -104,6 +112,103 @@ class UploadTest extends TestCase
             'field3' => '',
             'dummy' => 'dummy'
         ];
-        $this->assertEquals($expected, $this->upload->modifyData($data));
+        $expectedStrict = [
+            'field1' => 'tmp_moved',
+            'field2' => 'value2',
+            'field3' => '',
+            'dummy' => 'dummy',
+            'field4' => ''
+        ];
+        $this->assertEquals($expected, $upload->modifyData($data));
+        $this->assertEquals($expectedStrict, $uploadStrict->modifyData($data));
+    }
+
+    /**
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::modifyData
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::fileResidesOutsideUploadDir
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::isTmpFileAvailable
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::getUploadedImageName
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::__construct
+     */
+    public function testModifyDataWithException()
+    {
+        $this->fileInfo->method('getFilePath')->willReturnArgument(0);
+        $upload = new Upload(
+            ['field1', 'field2', 'field3', 'field4'],
+            $this->uploader,
+            $this->fileInfo,
+            $this->filesystem,
+            $this->logger,
+            false
+        );
+        $data = [
+            'field1' => [
+                [
+                    'tmp_name' => 'tmp_name',
+                    'file' => 'file1',
+                    'url' => 'path/url',
+                    'name' => 'path/url',
+                ]
+            ],
+            'field2' => [
+                [
+                    'url' => 'value2',
+                    'name' => 'value2'
+                ]
+            ],
+            'field3' => [],
+            'dummy' => 'dummy'
+        ];
+        $this->filesystem->method('getUri')->willReturn('path');
+        $this->uploader->expects($this->once())->method('moveFileFromTmp')->willThrowException(new \Exception());
+        $this->logger->expects($this->once())->method('critical');
+        $expected = [
+            'field1' => [
+                0 => [
+                    'tmp_name' => 'tmp_name',
+                    'file' => 'file1',
+                    'url' => 'path/url',
+                    'name' => 'path/url',
+                ],
+            ],
+            'field2' => 'value2',
+            'field3' => '',
+            'dummy' => 'dummy'
+        ];
+        $this->assertEquals($expected, $upload->modifyData($data));
+    }
+
+    /**
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::modifyData
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::fileResidesOutsideUploadDir
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::isTmpFileAvailable
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::getUploadedImageName
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\Upload::__construct
+     */
+    public function testModifyDataFileOutside()
+    {
+        $upload = new Upload(
+            ['field1', 'field2', 'field3', 'field4'],
+            $this->uploader,
+            $this->fileInfo,
+            $this->filesystem,
+            $this->logger,
+            false
+        );
+        $this->fileInfo->method('getFilePath')->willReturn('media/path');
+        $this->filesystem->method('getUri')->willReturn('media');
+        $data = [
+            'field1' => [
+                [
+                    'file' => 'file1',
+                    'name' => 'media/path/url',
+                    'url' => 'media/path/url'
+                ]
+            ],
+        ];
+        $expected = [
+            'field1' => 'media/path/url'
+        ];
+        $this->assertEquals($expected, $upload->modifyData($data));
     }
 }

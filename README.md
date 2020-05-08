@@ -6,7 +6,7 @@ This module is intended for Magento 2 developers, in order to reduce the boilerp
 
 ## Compatibility
 
-This module was developed an tested on Magento Open Source 2.3.4. I plan to support this for later versions also.
+This module was developed and tested on Magento Open Source 2.3.4 and 2.3.5. I plan to support this for later versions also.
 It may work for versions before 2.3.4, but I didn't test.
 
 ## What it does:
@@ -30,7 +30,7 @@ And the only variables here are
 This module provides a general admin `Save` controller that has as dependencies a set of other classes / interfaces that have only one of the responsibilities above
  - an Entity manager responsible for retrieving the data from db or instantiating a new entity
  - a data processor (interface) that processes the data
- - an entity config class that will contain the details about the entity being processed.
+ - an entity config class will contain the details about the entity being processed.
  - side objects: a data persistor (which is basically the session) to save the data submitted in case there is an error and you need to redirect back to the form with the previously submitted data prefilled.   
 
 All of these can be configured via `di.xml` for each entity you want to manage.  
@@ -48,10 +48,10 @@ This module also adds a few more code generators (similar to the core ones for f
 
 ## Advantages in using this module
  - less code to write, which means less code to test and less code that can malfunction
- - your copy/paste analyzer will stop compalining that you have classes that look the same.
+ - your copy/paste analyzer will stop complaining you have classes that look the same.
  - decrease development time. (hopefully)
  - you will have a standard way of writing all your CRUD modules (no matter if it's good or bad, at least it is consistent)
- - This covers most of the cases you will encounter in your development process. If one of your cases is not covered by this module you can chose not to extend or compose the classes in this module and use your own.
+ - This covers most of the cases you will encounter in your development process. If one of your cases is not covered by this module you can choose not to extend or compose the classes in this module and use your own.
  
  
 ## Disadvantages of using this module
@@ -67,8 +67,8 @@ This module also adds a few more code generators (similar to the core ones for f
     - download a copy from `https://github.com/UltimateModuleCreator/umc-crud` and all the files in `app/code/Umc/Crud`.
     
   After installation 
-   - check if this file exists `app/etc/crud/di.xml`. If it does not exist, run the commmand `bin/magento umc:crud:deploy`. If you get an error you can copy it from `vendor/umc/module-crud/etc/crud/di.xml` to `app/etc/crud/di.xml`
-   - run `bin/magento setup:upgrade`
+   - run `php bin/magento setup:upgrade [--keep-generated]`
+   - check if this file exists `app/etc/crud/di.xml`. If it does not exist, run the command `bin/magento umc:crud:deploy`. If you get an error you can copy it from `vendor/umc/module-crud/etc/crud/di.xml` to `app/etc/crud/di.xml`.
   
 # Documentation
   

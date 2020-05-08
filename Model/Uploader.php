@@ -22,7 +22,9 @@ declare(strict_types=1);
 namespace Umc\Crud\Model;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 use Magento\Framework\UrlInterface;
@@ -61,7 +63,10 @@ class Uploader
      * @var string
      */
     private $basePath;
-
+    /**
+     * @var FileChecker
+     */
+    private $fileChecker;
     /**
      * @var array
      */
@@ -74,10 +79,11 @@ class Uploader
      * @param UploaderFactory $uploaderFactory
      * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
-     * @param $baseTmpPath
-     * @param $basePath
+     * @param FileChecker $fileChecker
+     * @param string $baseTmpPath
+     * @param string $basePath
      * @param array $allowedExtensions
-     * @throws \Magento\Framework\Exception\FileSystemException
+     * @throws FileSystemException
      */
     public function __construct(
         Database $coreFileStorageDatabase,
@@ -85,17 +91,19 @@ class Uploader
         UploaderFactory $uploaderFactory,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
+        FileChecker $fileChecker,
         string $baseTmpPath,
         string $basePath,
         array $allowedExtensions = []
     ) {
         $this->coreFileStorageDatabase = $coreFileStorageDatabase;
-        $this->uploaderFactory         = $uploaderFactory;
-        $this->storeManager            = $storeManager;
-        $this->logger                  = $logger;
-        $this->baseTmpPath             = $baseTmpPath;
-        $this->basePath                = $basePath;
-        $this->allowedExtensions       = $allowedExtensions;
+        $this->uploaderFactory = $uploaderFactory;
+        $this->storeManager = $storeManager;
+        $this->logger = $logger;
+        $this->fileChecker = $fileChecker;
+        $this->baseTmpPath = $baseTmpPath;
+        $this->basePath = $basePath;
+        $this->allowedExtensions = $allowedExtensions;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
     }
 
@@ -146,15 +154,22 @@ class Uploader
      *
      * @param string $name
      * @return string
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function moveFileFromTmp($name)
     {
         $baseTmpPath = $this->getBaseTmpPath();
         $basePath = $this->getBasePath();
 
-        $baseFilePath = $this->getFilePath($basePath, $name);
         $baseTmpFilePath = $this->getFilePath($baseTmpPath, $name);
+        $baseFilePath = $this->getFilePath(
+            $basePath,
+            $this->fileChecker->getNewFileName(
+                $this->mediaDirectory->getAbsolutePath(
+                    $this->getFilePath($basePath, $name)
+                )
+            )
+        );
 
         try {
             $this->coreFileStorageDatabase->copyFile(
@@ -175,9 +190,8 @@ class Uploader
     }
 
     /**
-     * get base url
-     *
-     * @return string
+     * @return mixed
+     * @throws NoSuchEntityException
      */
     public function getBaseUrl()
     {
@@ -189,13 +203,10 @@ class Uploader
     }
 
     /**
-     * Checking file for save and save it to tmp dir
-     *
-     * @param string $fileId
-     *
-     * @return string[]
-     *
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param $fileId
+     * @return array|bool
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function saveFileToTmpDir($fileId)
     {
@@ -231,7 +242,6 @@ class Uploader
                 );
             }
         }
-
         return $result;
     }
 }

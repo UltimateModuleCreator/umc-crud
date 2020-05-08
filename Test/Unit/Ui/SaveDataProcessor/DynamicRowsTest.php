@@ -33,20 +33,11 @@ class DynamicRowsTest extends TestCase
      */
     private $serializer;
     /**
-     * @var DynamicRows
-     */
-    private $dynamicRows;
-
-    /**
      * setup tests
      */
     protected function setUp()
     {
         $this->serializer = $this->createMock(Json::class);
-        $this->dynamicRows = new DynamicRows(
-            $this->serializer,
-            ['field1', 'field2', 'field3']
-        );
     }
 
     /**
@@ -55,6 +46,11 @@ class DynamicRowsTest extends TestCase
      */
     public function testModifyData()
     {
+        $dynamicRows = new DynamicRows(
+            $this->serializer,
+            ['field1', 'field2', 'field3'],
+            false
+        );
         $data = [
             'field1' => [1, 2, 3],
             'field2' => 'string',
@@ -76,6 +72,42 @@ class DynamicRowsTest extends TestCase
             'field2' => 'string',
             'field4' => ['not_processed']
         ];
-        $this->assertEquals($expected, $this->dynamicRows->modifyData($data));
+        $this->assertEquals($expected, $dynamicRows->modifyData($data));
+    }
+
+    /**
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\DynamicRows::modifyData
+     * @covers \Umc\Crud\Ui\SaveDataProcessor\DynamicRows::__construct
+     */
+    public function testModifyDataStrictMode()
+    {
+        $dynamicRows = new DynamicRows(
+            $this->serializer,
+            ['field1', 'field2', 'field3'],
+            true
+        );
+        $data = [
+            'field1' => [1, 2, 3],
+            'field2' => 'string',
+            'field4' => ['not_processed']
+        ];
+        $this->serializer->expects($this->exactly(2))->method('serialize')->willReturnCallback(
+            function (array $item) {
+                $item['serialized'] = 1;
+                return $item;
+            }
+        );
+        $expected = [
+            'field1' => [
+                0 => 1,
+                1 => 2,
+                2 => 3,
+                'serialized' => 1
+            ],
+            'field2' => 'string',
+            'field3' => ['serialized' => 1],
+            'field4' => ['not_processed']
+        ];
+        $this->assertEquals($expected, $dynamicRows->modifyData($data));
     }
 }

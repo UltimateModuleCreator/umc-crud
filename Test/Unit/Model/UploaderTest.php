@@ -30,6 +30,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Umc\Crud\Model\FileChecker;
 use Umc\Crud\Model\Uploader;
 
 class UploaderTest extends TestCase
@@ -66,6 +67,10 @@ class UploaderTest extends TestCase
      * @var Filesystem\Directory\WriteInterface | MockObject
      */
     private $mediaDirectory;
+    /**
+     * @var FileChecker | MockObject
+     */
+    private $fileChecker;
 
     /**
      * setup tests
@@ -81,12 +86,14 @@ class UploaderTest extends TestCase
         $this->storeManager->method('getStore')->willReturn($this->store);
         $this->mediaDirectory = $this->createMock(Filesystem\Directory\WriteInterface::class);
         $this->filesystem->method('getDirectoryWrite')->willReturn($this->mediaDirectory);
+        $this->fileChecker = $this->createMock(FileChecker::class);
         $this->uploader = new Uploader(
             $this->coreFileStorageDatabase,
             $this->filesystem,
             $this->uploaderFactory,
             $this->storeManager,
             $this->logger,
+            $this->fileChecker,
             'base_tmp_path',
             'base_path',
             ['ext1', 'ext2']
@@ -137,6 +144,7 @@ class UploaderTest extends TestCase
     {
         $this->coreFileStorageDatabase->expects($this->once())->method('copyFile');
         $this->mediaDirectory->expects($this->once())->method('renameFile');
+        $this->fileChecker->expects($this->once())->method('getNewFilename')->willReturn('name');
         $this->assertEquals('name', $this->uploader->moveFileFromTmp('name'));
     }
 
@@ -148,6 +156,7 @@ class UploaderTest extends TestCase
     {
         $this->coreFileStorageDatabase->expects($this->once())->method('copyFile');
         $this->mediaDirectory->expects($this->once())->method('renameFile')->willThrowException(new \Exception());
+        $this->fileChecker->expects($this->once())->method('getNewFilename')->willReturn('name');
         $this->expectException(LocalizedException::class);
         $this->assertEquals('name', $this->uploader->moveFileFromTmp('name'));
     }
