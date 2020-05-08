@@ -50,27 +50,34 @@ class Upload implements SaveDataProcessorInterface
      * @var Filesystem
      */
     private $filesystem;
+    /**
+     * @var bool
+     */
+    private $strict;
 
     /**
-     * Image constructor.
+     * Upload constructor.
      * @param array $fields
      * @param Uploader $uploader
      * @param FileInfo $fileInfo
      * @param Filesystem $filesystem
      * @param LoggerInterface $logger
+     * @param bool $strict
      */
     public function __construct(
         array $fields,
         Uploader $uploader,
         FileInfo $fileInfo,
         Filesystem $filesystem,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        bool $strict
     ) {
         $this->fields = $fields;
         $this->uploader = $uploader;
         $this->fileInfo = $fileInfo;
         $this->filesystem = $filesystem;
         $this->logger = $logger;
+        $this->strict = $strict;
     }
 
     /**
@@ -99,6 +106,9 @@ class Upload implements SaveDataProcessorInterface
     {
         foreach ($this->fields as $field) {
             if (!array_key_exists($field, $data)) {
+                if ($this->strict) {
+                    $data[$field] = '';
+                }
                 continue;
             }
             $value = $data[$field] ?? '';
@@ -111,10 +121,9 @@ class Upload implements SaveDataProcessorInterface
             } else {
                 if ($this->fileResidesOutsideUploadDir($value)) {
                     // phpcs:ignore Magento2.Functions.DiscouragedFunction
-                    $value[0]['url'] = parse_url($value[0]['url'], PHP_URL_PATH);
-                    $value[0]['name'] = $value[0]['url'];
+                    $value[0]['name'] = parse_url($value[0]['url'], PHP_URL_PATH);
                 }
-                $data[$field] = $value[0]['url'] ?? '';
+                $data[$field] = $value[0]['name'] ?? '';
             }
         }
         return $data;
@@ -129,10 +138,9 @@ class Upload implements SaveDataProcessorInterface
         if (!is_array($value) || !isset($value[0]['url'])) {
             return false;
         }
-
         $fileUrl = ltrim($value[0]['url'], '/');
+        $filePath = $this->fileInfo->getFilePath($fileUrl);
         $baseMediaDir = $this->filesystem->getUri(DirectoryList::MEDIA);
-
-        return $baseMediaDir && strpos($fileUrl, $baseMediaDir) !== false;
+        return $baseMediaDir && strpos($filePath, $baseMediaDir) !== false;
     }
 }

@@ -19,8 +19,16 @@
 
 declare(strict_types=1);
 
-use Magento\Framework\Component\ComponentRegistrar;
+namespace Umc\Crud\ViewModel\Formatter;
 
-// @codeCoverageIgnoreStart
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Umc_Crud', __DIR__);
-// @codeCoverageIgnoreEnd
+use Magento\Framework\View\Element\Block\ArgumentInterface;
+
+interface FormatterInterface extends ArgumentInterface
+{
+    /**
+     * @param $value
+     * @param array $arguments
+     * @return string
+     */
+    public function formatHtml($value, $arguments = []): string;
+}

@@ -86,7 +86,8 @@ class ListRepo extends EntityAbstract
                     ],
                     [
                         'name' => 'param',
-                        'description' => '\\' . $this->nameMatcher->getCollectionFactoryClass($this->getSourceClassName())
+                        'description' => '\\'
+                            . $this->nameMatcher->getCollectionFactoryClass($this->getSourceClassName())
                             . ' $collectionFactory',
                     ]
                 ]
@@ -269,5 +270,4 @@ class ListRepo extends EntityAbstract
         $text .= $padd . '$conditions[] = [$condition => $filter->getValue()];' . "\n";
         return $text;
     }
-
 }

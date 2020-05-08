@@ -151,4 +151,24 @@ class FileInfoTest extends TestCase
         $this->mediaDirectory->method('isExist')->willReturn(true);
         $this->assertTrue($this->fileInfo->isExist('some/file.png'));
     }
+
+    /**
+     * @covers \Umc\Crud\Model\FileInfo::getAbsoluteFilePath
+     * @covers \Umc\Crud\Model\FileInfo::getMediaDirectory
+     * @covers \Umc\Crud\Model\FileInfo::getFilePath
+     * @covers \Umc\Crud\Model\FileInfo::getPubDirectory
+     * @covers \Umc\Crud\Model\FileInfo::getBaseDirectory
+     * @covers \Umc\Crud\Model\FileInfo::getMediaDirectoryPathRelativeToBaseDirectoryPath
+     * @covers \Umc\Crud\Model\FileInfo::removeStorePath
+     * @covers \Umc\Crud\Model\FileInfo::isBeginsWithMediaDirectoryPath
+     * @covers \Umc\Crud\Model\FileInfo::__construct
+     */
+    public function testGetAbsoluteFilePath()
+    {
+        $this->readDirectory->method('getAbsolutePath')->willReturn('absolute/path');
+        $this->readDirectory->method('getRelativePath')->willReturn('relative');
+        $this->mediaDirectory->method('getAbsolutePath')->willReturn('media/absolute/path');
+        $this->mediaDirectory->method('isExist')->willReturn(true);
+        $this->assertEquals('media/absolute/path', $this->fileInfo->getAbsoluteFilePath('some/file.png'));
+    }
 }

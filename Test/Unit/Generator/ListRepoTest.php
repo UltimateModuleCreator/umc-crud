@@ -30,6 +30,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionParameter;
 use Umc\Crud\Generator\ListRepo;
 use Umc\Crud\Generator\NameMatcher;
+use Umc\Crud\Model\ResourceModel\StoreAwareAbstractModel;
 
 class ListRepoTest extends TestCase
 {
@@ -88,6 +89,29 @@ class ListRepoTest extends TestCase
         $this->nameMatcher->expects($this->any())->method('getSearchResultsClass');
         $this->nameMatcher->expects($this->any())->method('getSearchResultFactory')->willReturn('searchResults');
         $this->nameMatcher->expects($this->any())->method('getCollectionFactoryClass');
+        $this->definedClasses->method('isClassLoadable')->willReturn(true);
+        $this->ioObject->method('makeResultFileDirectory')->willReturn(true);
+        $this->ioObject->method('fileExists')->willReturn(true);
+        $this->classGenerator->expects($this->once())->method('setName')->willReturnSelf();
+        $this->classGenerator->expects($this->once())->method('addProperties')->willReturnSelf();
+        $this->classGenerator->expects($this->once())->method('addMethods')->willReturnSelf();
+        $this->classGenerator->expects($this->once())->method('setClassDocBlock')->willReturnSelf();
+        $this->classGenerator->expects($this->once())->method('generate')->willReturn('generated code');
+        $this->assertEquals('filename.php', $this->listRepo->generate());
+    }
+
+    /**
+     * @covers \Umc\Crud\Generator\ListRepo
+     */
+    public function testGenerateStoreAwareModel()
+    {
+        $this->ioObject->expects($this->once())->method('generateResultFileName')->willReturn('filename.php');
+        $this->nameMatcher->expects($this->once())->method('getListRepoInterface');
+        $this->nameMatcher->expects($this->any())->method('getSearchResultsClass');
+        $this->nameMatcher->expects($this->any())->method('getSearchResultFactory')->willReturn('searchResults');
+        $this->nameMatcher->expects($this->any())->method('getCollectionFactoryClass');
+        $class = $this->createMock(StoreAwareAbstractModel::class);
+        $this->nameMatcher->method('getResourceClassName')->willReturn(get_class($class));
         $this->definedClasses->method('isClassLoadable')->willReturn(true);
         $this->ioObject->method('makeResultFileDirectory')->willReturn(true);
         $this->ioObject->method('fileExists')->willReturn(true);

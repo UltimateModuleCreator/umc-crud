@@ -141,6 +141,18 @@ class FileInfo
 
     /**
      * @param $fileName
+     * @return null|string
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
+    public function getAbsoluteFilePath($fileName)
+    {
+        return $this->isExist($fileName)
+            ? $this->getMediaDirectory()->getAbsolutePath($this->getFilePath($fileName))
+            : null;
+    }
+
+    /**
+     * @param $fileName
      * @return array
      * @throws \Magento\Framework\Exception\FileSystemException
      */
@@ -168,7 +180,7 @@ class FileInfo
      * @return bool|string
      * @throws \Magento\Framework\Exception\FileSystemException
      */
-    private function getFilePath($fileName)
+    public function getFilePath($fileName)
     {
         $filePath = $this->removeStorePath($fileName);
         $filePath = ltrim($filePath, '/');
@@ -194,9 +206,7 @@ class FileInfo
         $filePath = ltrim($filePath, '/');
 
         $mediaDirectoryRelativeSubpath = $this->getMediaDirectoryPathRelativeToBaseDirectoryPath($filePath);
-        $isFileNameBeginsWithMediaDirectoryPath = strpos($filePath, (string) $mediaDirectoryRelativeSubpath) === 0;
-
-        return $isFileNameBeginsWithMediaDirectoryPath;
+        return strpos($filePath, (string) $mediaDirectoryRelativeSubpath) === 0;
     }
 
     /**
