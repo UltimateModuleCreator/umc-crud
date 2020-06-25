@@ -69,6 +69,7 @@ class ActionsColumn extends Column
     public function prepareDataSource(array $dataSource)
     {
         $param = $this->uiConfig->getRequestParamName();
+        $nameAttribute = $this->uiConfig->getNameAttribute();
         foreach ($dataSource['data']['items'] as & $item) {
             $params = [$param => $item[$param] ?? null];
             $item[$this->getData('name')] = [
@@ -80,7 +81,7 @@ class ActionsColumn extends Column
                     'href' => $this->urlBuilder->getUrl($this->uiConfig->getDeleteUrlPath(), $params),
                     'label' => __('Delete'),
                     'confirm' => [
-                        'title' => __('Delete "${ $.$data.%1 }"', $this->uiConfig->getNameAttribute())->render(),
+                        'title' => __('Delete %1', $item[$nameAttribute] ?? '')->render(),
                         'message' => $this->uiConfig->getDeleteMessage()
                     ],
                     'post' => true

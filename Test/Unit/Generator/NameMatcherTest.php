@@ -34,7 +34,7 @@ class NameMatcherTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->nameMatcher = new NameMatcher();
     }

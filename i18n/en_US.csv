@@ -1,0 +1,25 @@
+Back,Back
+Reset,Reset
+"Please correct the data sent.","Please correct the data sent."
+Error,Error
+"Something went wrong while saving the file(s).","Something went wrong while saving the file(s)."
+"File can not be saved to the destination folder.","File can not be saved to the destination folder."
+"All Store Views","All Store Views"
+Edit,Edit
+Delete,Delete
+"Delete %1","Delete %1"
+Save,Save
+"Save & Duplicate","Save & Duplicate"
+"Save & close","Save & close"
+"Are you sure you want to delete the item?","Are you sure you want to delete the item?"
+"Delete ""${ $.$data.%1 }""","Delete ""${ $.$data.%1 }"""
+"Item was deleted successfully","Item was deleted successfully"
+"Item for delete was not found","Item for delete was not found"
+"There was a problem deleting the item.","There was a problem deleting the item."
+"Item was saved successfully.","Item was saved successfully."
+"There was a problem saving the item.","There was a problem saving the item."
+"Item was duplicated successfully.","Item was duplicated successfully."
+"%1 items were successfully deleted","%1 items were successfully deleted"
+"There was a problem deleting the items","There was a problem deleting the items"
+"Add new item","Add new item"
+"Something went wrong while getting the file url.","Something went wrong while getting the file url."

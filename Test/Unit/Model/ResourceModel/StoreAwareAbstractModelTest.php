@@ -80,7 +80,7 @@ class StoreAwareAbstractModelTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->context = $this->createMock(Context::class);
         $this->entityManager = $this->createMock(EntityManager::class);

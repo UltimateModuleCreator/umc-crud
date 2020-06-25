@@ -41,7 +41,7 @@ class BackTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->url = $this->createMock(UrlInterface::class);
         $this->uiConfig = $this->createMock(EntityUiConfig::class);

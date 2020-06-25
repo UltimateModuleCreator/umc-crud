@@ -6,9 +6,10 @@ This module is intended for Magento 2 developers, in order to reduce the boilerp
 
 ## Compatibility
 
-This module was developed and tested on Magento Open Source 2.3.4 and 2.3.5. I plan to support this for later versions also.
-It may work for versions before 2.3.4, but I didn't test.
-
+ - 2.4.0  
+ - 2.3.5  
+ - 2.3.4  
+ - probably works for versions before 2.3.4, but it's not guaranteed.  
 ## What it does:
 It provides a set of classes and interfaces that can be configured, composed or prerenced in order to avoid writing the same code over and over again.  
 

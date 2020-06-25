@@ -40,7 +40,7 @@ class TextTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->escaper = $this->createMock(Escaper::class);
         $this->text = new Text($this->escaper);

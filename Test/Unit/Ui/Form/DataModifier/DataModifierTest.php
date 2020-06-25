@@ -27,7 +27,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Umc\Crud\Ui\Form\DataModifier\DynamicRows;
 
-class DynamicRowsTest extends TestCase
+class DataModifierTest extends TestCase
 {
     /**
      * @var Json | MockObject
@@ -45,7 +45,7 @@ class DynamicRowsTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->serializer = $this->createMock(Json::class);
         $this->model = $this->createMock(AbstractModel::class);

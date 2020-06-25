@@ -28,7 +28,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Umc\Crud\ViewModel\Formatter\Options;
 
-class OptionsTest extends TestCase
+class OptionTest extends TestCase
 {
     /**
      * @var ObjectManagerInterface | MockObject
@@ -46,7 +46,7 @@ class OptionsTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->objectManager = $this->createMock(ObjectManagerInterface::class);
         $this->escaper = $this->createMock(Escaper::class);

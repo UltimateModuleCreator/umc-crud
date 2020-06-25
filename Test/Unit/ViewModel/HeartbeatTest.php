@@ -40,7 +40,7 @@ class HeartbeatTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->url = $this->createMock(UrlInterface::class);
         $this->heartbeat = new Heartbeat(

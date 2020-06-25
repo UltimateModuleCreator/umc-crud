@@ -74,7 +74,7 @@ class ImageTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->adapterFactory = $this->createMock(AdapterFactory::class);
         $this->fileInfoFactory = $this->createMock(FileInfoFactory::class);
@@ -123,7 +123,7 @@ class ImageTest extends TestCase
         $this->storeManager->method('getStore')->willReturn($this->store);
         $this->store->method('getBaseUrl')->willReturn('base/');
         $this->assertEquals(
-            'base/absolute/path/to/image/cache/2e5cc4e4036c930cd893e7434a9fc500/path/goes/here.jpg',
+            'base/absolute/path/to/image/cache/832a442eaed87e27dfb80e2a897dd624/path/goes/here.jpg',
             $this->image->formatHtml('image/path/goes/here.jpg', ['resize' => [100, 100]])
         );
     }
@@ -146,7 +146,7 @@ class ImageTest extends TestCase
         $this->storeManager->method('getStore')->willReturn($this->store);
         $this->store->method('getBaseUrl')->willReturn('base/');
         $this->assertEquals(
-            'base/absolute/path/to/image/path/cache/a593982ff801608e4aaebdd647b05a73/goes/here.jpg',
+            'base/absolute/path/to/image/path/cache/ed589c087cddf99587dd985c5d36d463/goes/here.jpg',
             $this->image->formatHtml('image/path/goes/here.jpg', ['resize' => 100, 'image_name_parts' => 2])
         );
     }

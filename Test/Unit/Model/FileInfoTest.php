@@ -63,7 +63,7 @@ class FileInfoTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->filesystem = $this->createMock(Filesystem::class);
         $this->mime = $this->createMock(Mime::class);

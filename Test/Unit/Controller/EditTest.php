@@ -37,33 +37,13 @@ use Umc\Crud\Ui\EntityUiManagerInterface;
 class EditTest extends TestCase
 {
     /**
-     * @var Context | MockObject
-     */
-    private $context;
-    /**
-     * @var EntityUiManagerInterface | MockObject
-     */
-    private $entityUiManager;
-    /**
      * @var EntityUiConfig | MockObject
      */
     private $uiConfig;
     /**
-     * @var RequestInterface | MockObject
-     */
-    private $request;
-    /**
-     * @var Config | MockObject
-     */
-    private $pageConfig;
-    /**
      * @var Title | MockObject
      */
     private $pageTitle;
-    /**
-     * @var ResultFactory | MockObject
-     */
-    private $resultFactory;
     /**
      * @var Page | MockObject
      */
@@ -80,26 +60,26 @@ class EditTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->context = $this->createMock(Context::class);
-        $this->entityUiManager = $this->createMock(EntityUiManagerInterface::class);
+        $context = $this->createMock(Context::class);
+        $entityUiManager = $this->createMock(EntityUiManagerInterface::class);
         $this->uiConfig = $this->createMock(EntityUiConfig::class);
-        $this->request = $this->createMock(RequestInterface::class);
+        $request = $this->createMock(RequestInterface::class);
         $this->resultPage = $this->createMock(Page::class);
-        $this->pageConfig = $this->createMock(Config::class);
+        $pageConfig = $this->createMock(Config::class);
         $this->pageTitle = $this->createMock(Title::class);
         $this->entity = $this->createMock(AbstractModel::class);
-        $this->resultFactory = $this->createMock(ResultFactory::class);
-        $this->context->method('getRequest')->willReturn($this->request);
-        $this->context->method('getResultFactory')->willReturn($this->resultFactory);
-        $this->pageConfig->method('getTitle')->willReturn($this->pageTitle);
-        $this->resultFactory->method('create')->willReturn($this->resultPage);
-        $this->resultPage->method('getConfig')->willReturn($this->pageConfig);
-        $this->entityUiManager->method('get')->willReturn($this->entity);
+        $resultFactory = $this->createMock(ResultFactory::class);
+        $context->method('getRequest')->willReturn($request);
+        $context->method('getResultFactory')->willReturn($resultFactory);
+        $pageConfig->method('getTitle')->willReturn($this->pageTitle);
+        $resultFactory->method('create')->willReturn($this->resultPage);
+        $this->resultPage->method('getConfig')->willReturn($pageConfig);
+        $entityUiManager->method('get')->willReturn($this->entity);
         $this->edit = new Edit(
-            $this->context,
-            $this->entityUiManager,
+            $context,
+            $entityUiManager,
             $this->uiConfig
         );
     }
@@ -114,8 +94,8 @@ class EditTest extends TestCase
         $this->uiConfig->expects($this->once())->method('getListPageTitle')->willReturn('PageTitle');
         $this->resultPage->expects($this->once())->method('setActiveMenu')->with('SelectedMenu');
         $this->pageTitle->expects($this->exactly(2))->method('prepend')->withConsecutive(
-            $this->equalTo('PageTitle'),
-            $this->equalTo('name')
+            [$this->equalTo('PageTitle')],
+            [$this->equalTo('name')]
         );
         $this->entity->method('getId')->willReturn(1);
         $this->entity->method('getData')->willReturn('name');
@@ -134,8 +114,8 @@ class EditTest extends TestCase
         $this->resultPage->expects($this->once())->method('setActiveMenu')->with('SelectedMenu');
         $this->uiConfig->expects($this->once())->method('getNewLabel')->willReturn('new');
         $this->pageTitle->expects($this->exactly(2))->method('prepend')->withConsecutive(
-            $this->equalTo('PageTitle'),
-            $this->equalTo('new')
+            [$this->equalTo('PageTitle')],
+            [$this->equalTo('new')]
         );
         $this->entity->method('getId')->willReturn(null);
         $this->entity->expects($this->never())->method('getData');
