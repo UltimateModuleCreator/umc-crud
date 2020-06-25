@@ -57,7 +57,7 @@ class DeleteTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = $this->createMock(RequestInterface::class);
         $this->entityUiManager = $this->createMock(EntityUiManagerInterface::class);

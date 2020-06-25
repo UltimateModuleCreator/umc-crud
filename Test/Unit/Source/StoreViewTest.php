@@ -36,10 +36,6 @@ class StoreViewTest extends TestCase
      */
     private $systemStore;
     /**
-     * @var Escaper | MockObject
-     */
-    private $escaper;
-    /**
      * @var StoreView
      */
     private $storeView;
@@ -47,14 +43,16 @@ class StoreViewTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->systemStore = $this->createMock(Store::class);
-        $this->escaper = $this->createMock(Escaper::class);
+        $escaper = $this->createMock(Escaper::class);
         $this->storeView = new StoreView(
             $this->systemStore,
-            $this->escaper
+            $escaper
         );
+        $escaper->method('escapeJs')->willReturnArgument(0);
+        $escaper->method('escapeHtml')->willReturnArgument(0);
     }
 
     /**
@@ -74,43 +72,12 @@ class StoreViewTest extends TestCase
             $this->getStoreViewMock(1, 11, 'storeview1'),
             $this->getStoreViewMock(2, 12, 'storeview2'),
         ]);
-        $expected = [
-            [
-                'label' => _('All Store Views'),
-                'value' => 0
-            ],
-            [
-                'label' => 'website1',
-                '__disableTmpl' => 1,
-                'value' => [
-                    [
-                        'label' => '    group1',
-                        '__disableTmpl' => 1,
-                        'value' => [
-                            [
-                                'label' => '        storeview1',
-                                'value' => 1,
-                                '__disableTmpl' => 1
-                            ]
-                        ]
-                    ],
-                    [
-                        'label' => '    group2',
-                        '__disableTmpl' => 1,
-                        'value' => [
-                            [
-                                'label' => '        storeview2',
-                                'value' => 2,
-                                '__disableTmpl' => 1
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-        $this->assertEquals($expected, $this->storeView->toOptionArray());
+        $this->storeView->toOptionArray();
         //call twice to test memoizing
-        $this->assertEquals($expected, $this->storeView->toOptionArray());
+        $result = $this->storeView->toOptionArray();
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(0, $result[0]['value']);
+        $this->assertEquals(2, count($result[1]['value']));
     }
 
     /**

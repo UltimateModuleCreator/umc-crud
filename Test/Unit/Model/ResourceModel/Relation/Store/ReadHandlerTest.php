@@ -41,7 +41,7 @@ class ReadHandlerTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->resource = $this->createMock(StoreAwareAbstractModel::class);
         $this->readHandler = new ReadHandler($this->resource);

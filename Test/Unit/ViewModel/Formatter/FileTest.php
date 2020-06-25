@@ -60,7 +60,7 @@ class FileTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->fileInfoFactory = $this->createMock(FileInfoFactory::class);
         $this->filesystem = $this->createMock(Filesystem::class);

@@ -62,7 +62,7 @@ class ListRepoTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->nameMatcher = $this->createMock(NameMatcher::class);
         $this->ioObject = $this->createMock(Io::class);

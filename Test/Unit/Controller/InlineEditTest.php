@@ -67,7 +67,7 @@ class InlineEditTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->context = $this->createMock(Context::class);
         $this->dataProcessor = $this->createMock(SaveDataProcessorInterface::class);

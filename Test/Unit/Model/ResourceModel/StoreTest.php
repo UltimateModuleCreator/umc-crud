@@ -52,7 +52,7 @@ class StoreTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $om = new ObjectManager($this);
         $this->collection = $om->getCollectionMock(

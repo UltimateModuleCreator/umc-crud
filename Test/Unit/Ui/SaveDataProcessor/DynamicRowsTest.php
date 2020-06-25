@@ -35,7 +35,7 @@ class DynamicRowsTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->serializer = $this->createMock(Json::class);
     }

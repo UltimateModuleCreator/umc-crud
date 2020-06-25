@@ -60,7 +60,7 @@ class ActionsColumnTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->context = $this->createMock(ContextInterface::class);
         $this->uiComponentFactory = $this->createMock(UiComponentFactory::class);
@@ -115,7 +115,7 @@ class ActionsColumnTest extends TestCase
                                 'href' => 'delete_url',
                                 'label' => 'Delete',
                                 'confirm' => [
-                                    'title' => 'Delete "${ $.$data.field1 }"',
+                                    'title' => 'Delete value1',
                                     'message' => 'Really?'
                                 ],
                                 'post' => true

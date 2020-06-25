@@ -40,7 +40,7 @@ class SaveTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->uiConfig = $this->createMock(EntityUiConfig::class);
         $this->save = new Save(

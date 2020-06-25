@@ -39,7 +39,7 @@ class WysiwygTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->filter = $this->createMock(\Zend_Filter_Interface::class);
         $this->wysiwyg = new Wysiwyg($this->filter);

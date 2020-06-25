@@ -70,7 +70,7 @@ class ImageTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->context = $this->createMock(ContextInterface::class);
         $this->uiComponentFactory = $this->createMock(UiComponentFactory::class);

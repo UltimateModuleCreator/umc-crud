@@ -75,7 +75,7 @@ class UploaderTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->coreFileStorageDatabase = $this->createMock(Database::class);
         $this->filesystem = $this->createMock(Filesystem::class);

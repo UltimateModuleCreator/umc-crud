@@ -89,7 +89,7 @@ class MassDeleteTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->om = new ObjectManager($this);
         $this->context = $this->createMock(Context::class);

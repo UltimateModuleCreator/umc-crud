@@ -40,7 +40,7 @@ class FileCheckerTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->file = $this->createMock(File::class);
         $this->fileChecker = new FileChecker(

@@ -40,7 +40,7 @@ class DateTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->localeDate = $this->createMock(TimezoneInterface::class);
         $this->date = new Date($this->localeDate);

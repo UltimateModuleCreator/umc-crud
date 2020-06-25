@@ -67,7 +67,7 @@ class DataProviderTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->collectionProvider = $this->createMock(CollectionProviderInterface::class);
         $this->dataPersistor = $this->createMock(DataPersistorInterface::class);

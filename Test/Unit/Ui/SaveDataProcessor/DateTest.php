@@ -48,7 +48,7 @@ class DateTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->filterFactory = $this->createMock(\Zend_Filter_InputFactory::class);
         $this->dateFilter = $this->createMock(DateFilter::class);

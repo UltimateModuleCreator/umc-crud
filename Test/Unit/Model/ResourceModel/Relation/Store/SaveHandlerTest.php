@@ -60,7 +60,7 @@ class SaveHandlerTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->metadataPool = $this->createMock(MetadataPool::class);
         $this->resource = $this->createMock(StoreAwareAbstractModel::class);

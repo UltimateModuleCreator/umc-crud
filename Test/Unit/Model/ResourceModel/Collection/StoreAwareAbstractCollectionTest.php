@@ -105,7 +105,7 @@ class StoreAwareAbstractCollectionTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->entityFactory = $this->createMock(EntityFactoryInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);

@@ -58,7 +58,7 @@ class DeployTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->reader = $this->createMock(Reader::class);
         $this->ioFile = $this->createMock(File::class);

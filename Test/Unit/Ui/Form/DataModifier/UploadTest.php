@@ -58,7 +58,7 @@ class UploadTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->uploader = $this->createMock(Uploader::class);
         $this->logger = $this->createMock(LoggerInterface::class);

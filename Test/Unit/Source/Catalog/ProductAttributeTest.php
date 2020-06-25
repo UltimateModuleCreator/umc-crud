@@ -66,7 +66,7 @@ class ProductAttributeTest extends TestCase
     /**
      * setup tests
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->attributeRepository = $this->createMock(ProductAttributeRepositoryInterface::class);
         $this->searchCriteriaBuilder = $this->createMock(SearchCriteriaBuilder::class);
