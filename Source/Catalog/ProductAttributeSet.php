@@ -21,12 +21,12 @@ declare(strict_types=1);
 
 namespace Umc\Crud\Source\Catalog;
 
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Catalog\Api\AttributeSetRepositoryInterface;
 
-class ProductAttributeSet implements ArrayInterface
+class ProductAttributeSet implements OptionSourceInterface
 {
     /**
      * @var AttributeSetRepositoryInterface
