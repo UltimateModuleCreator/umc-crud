@@ -21,9 +21,9 @@ declare(strict_types=1);
 
 namespace Umc\Crud\Test\Unit\ViewModel\Formatter;
 
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\ObjectManagerInterface;
-use Magento\Framework\Option\ArrayInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Umc\Crud\ViewModel\Formatter\Options;
@@ -134,7 +134,7 @@ class OptionTest extends TestCase
      */
     private function getSourceMock($values)
     {
-        $source = $this->createMock(ArrayInterface::class);
+        $source = $this->createMock(OptionSourceInterface::class);
         $source->method('toOptionArray')->willReturn($values);
         return $source;
     }

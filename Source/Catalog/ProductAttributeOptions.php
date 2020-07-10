@@ -23,10 +23,10 @@ namespace Umc\Crud\Source\Catalog;
 
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Eav\Api\Data\AttributeOptionInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Option\ArrayInterface;
 
-class ProductAttributeOptions implements ArrayInterface
+class ProductAttributeOptions implements OptionSourceInterface
 {
     /**
      * @var ProductAttributeRepositoryInterface

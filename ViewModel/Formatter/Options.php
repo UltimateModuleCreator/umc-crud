@@ -21,9 +21,9 @@ declare(strict_types=1);
 
 namespace Umc\Crud\ViewModel\Formatter;
 
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\ObjectManagerInterface;
-use Magento\Framework\Option\ArrayInterface;
 
 class Options implements FormatterInterface
 {
@@ -36,7 +36,7 @@ class Options implements FormatterInterface
      */
     private $escaper;
     /**
-     * @var ArrayInterface[]
+     * @var OptionSourceInterface[]
      */
     private $sources = [];
 
@@ -79,9 +79,9 @@ class Options implements FormatterInterface
 
     /**
      * @param array $arguments
-     * @return ArrayInterface|null
+     * @return OptionSourceInterface|null
      */
-    private function getSource(array $arguments): ?ArrayInterface
+    private function getSource(array $arguments): ?OptionSourceInterface
     {
         $sourceClass = $arguments['source'] ?? null;
         if (!$sourceClass) {
@@ -89,9 +89,9 @@ class Options implements FormatterInterface
         }
         if (!array_key_exists($sourceClass, $this->sources)) {
             $instance = $this->objectManager->get($sourceClass);
-            if (!($instance instanceof ArrayInterface)) {
+            if (!($instance instanceof OptionSourceInterface)) {
                 throw new \InvalidArgumentException(
-                    "Source model for options formatter should implement " . ArrayInterface::class
+                    "Source model for options formatter should implement " . OptionSourceInterface::class
                 );
             }
             $this->sources[$sourceClass] = $instance;

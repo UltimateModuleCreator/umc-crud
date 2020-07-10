@@ -21,10 +21,10 @@ declare(strict_types=1);
 
 namespace Umc\Crud\Source;
 
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Store\Ui\Component\Listing\Column\Store\Options;
 
-class StoreView extends Options implements ArrayInterface
+class StoreView extends Options implements OptionSourceInterface
 {
     /**
      * All Store Views value

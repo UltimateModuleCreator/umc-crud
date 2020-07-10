@@ -25,9 +25,9 @@ use Magento\Catalog\Api\Data\ProductAttributeInterface;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 
-class ProductAttribute implements ArrayInterface
+class ProductAttribute implements OptionSourceInterface
 {
     /**
      * @var ProductAttributeRepositoryInterface

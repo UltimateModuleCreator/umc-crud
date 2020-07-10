@@ -21,9 +21,9 @@ declare(strict_types=1);
 
 namespace Umc\Crud\Source;
 
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 
-class Options implements ArrayInterface
+class Options implements OptionSourceInterface
 {
     /**
      * @var array
