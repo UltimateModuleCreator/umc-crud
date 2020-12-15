@@ -162,14 +162,12 @@ class Uploader
         $basePath = $this->getBasePath();
 
         $baseTmpFilePath = $this->getFilePath($baseTmpPath, $name);
-        $baseFilePath = $this->getFilePath(
-            $basePath,
-            $this->fileChecker->getNewFileName(
-                $this->mediaDirectory->getAbsolutePath(
-                    $this->getFilePath($basePath, $name)
-                )
+        $newName = $this->fileChecker->getNewFileName(
+            $this->mediaDirectory->getAbsolutePath(
+                $this->getFilePath($basePath, $name)
             )
         );
+        $baseFilePath = $this->getFilePath($basePath, $newName);
 
         try {
             $this->coreFileStorageDatabase->copyFile(
@@ -186,7 +184,7 @@ class Uploader
             );
         }
 
-        return $name;
+        return $newName;
     }
 
     /**
