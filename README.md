@@ -5,11 +5,14 @@
 This module is intended for Magento 2 developers, in order to reduce the boilerplate code when creating a CRUD extension.
 
 ## Compatibility
-
- - 2.4.0  
- - 2.3.5  
- - 2.3.4  
- - probably works for versions before 2.3.4, but it's not guaranteed.  
+  - 2.4.4
+  - 2.4.3
+  - 2.4.2
+  - 2.4.1
+  - 2.4.0  
+  - 2.3.5  
+  - 2.3.4  
+  - probably works for versions before 2.3.4, but it's not guaranteed.  
 ## What it does:
 It provides a set of classes and interfaces that can be configured, composed or prerenced in order to avoid writing the same code over and over again.  
 
