@@ -21,18 +21,20 @@ declare(strict_types=1);
 
 namespace Umc\Crud\ViewModel\Formatter;
 
+use Laminas\Filter\FilterInterface;
+
 class Wysiwyg implements FormatterInterface
 {
     /**
-     * @var \Zend_Filter_Interface
+     * @var \Laminas\Filter\FilterInterface
      */
     private $filter;
 
     /**
      * Wysiwyg constructor.
-     * @param \Zend_Filter_Interface $filter
+     * @param \Laminas\Filter\FilterInterface $filter
      */
-    public function __construct(\Zend_Filter_Interface $filter)
+    public function __construct(FilterInterface $filter)
     {
         $this->filter = $filter;
     }
@@ -41,7 +43,7 @@ class Wysiwyg implements FormatterInterface
      * @param $value
      * @param array $arguments
      * @return string
-     * @throws \Zend_Filter_Exception
+     * @throws \Laminas\Filter\Exception\ExceptionInterface
      */
     public function formatHtml($value, $arguments = []): string
     {

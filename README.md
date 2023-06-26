@@ -5,6 +5,8 @@
 This module is intended for Magento 2 developers, in order to reduce the boilerplate code when creating a CRUD extension.
 
 ## Compatibility
+  - 2.4.6  
+  - 2.4.5  
   - 2.4.4
   - 2.4.3
   - 2.4.2

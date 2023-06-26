@@ -28,7 +28,7 @@ use Umc\Crud\ViewModel\Formatter\Wysiwyg;
 class WysiwygTest extends TestCase
 {
     /**
-     * @var \Zend_Filter_Interface | MockObject
+     * @var \Laminas\Filter\FilterInterface | MockObject
      */
     private $filter;
     /**
@@ -41,7 +41,7 @@ class WysiwygTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->filter = $this->createMock(\Zend_Filter_Interface::class);
+        $this->filter = $this->createMock(\Laminas\Filter\FilterInterface::class);
         $this->wysiwyg = new Wysiwyg($this->filter);
     }
 
