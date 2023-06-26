@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace Umc\Crud\Ui\SaveDataProcessor;
 
+use Magento\Framework\Filter\FilterInputFactory;
 use Umc\Crud\Ui\SaveDataProcessorInterface;
 
 class Date implements SaveDataProcessorInterface
@@ -30,7 +31,7 @@ class Date implements SaveDataProcessorInterface
      */
     private $fields;
     /**
-     * @var \Zend_Filter_InputFactory
+     * @var \Magento\Framework\Filter\FilterInputFactory
      */
     private $filterFactory;
     /**
@@ -41,12 +42,12 @@ class Date implements SaveDataProcessorInterface
     /**
      * Date constructor.
      * @param array $fields
-     * @param \Zend_Filter_InputFactory $filterFactory
+     * @param \Magento\Framework\Filter\FilterInputFactory $filterFactory
      * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         array $fields,
-        \Zend_Filter_InputFactory $filterFactory,
+        FilterInputFactory $filterFactory,
         \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         $this->fields = $fields;
@@ -69,7 +70,7 @@ class Date implements SaveDataProcessorInterface
                 $filterRules[$dateField] = $this->dateFilter;
             }
         }
-        /** @var \Zend_Filter_Input $filter */
+        /** @var \Magento\Framework\Filter\FilterInput  $filter */
         $filter = $this->filterFactory->create([
             'filterRules' => $filterRules,
             'validatorRules' => [],

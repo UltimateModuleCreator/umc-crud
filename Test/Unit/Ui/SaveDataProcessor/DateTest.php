@@ -29,7 +29,7 @@ use Umc\Crud\Ui\SaveDataProcessor\Date;
 class DateTest extends TestCase
 {
     /**
-     * @var \Zend_Filter_InputFactory | MockObject
+     * @var \Magento\Framework\Filter\FilterInputFactory | MockObject
      */
     private $filterFactory;
     /**
@@ -37,7 +37,7 @@ class DateTest extends TestCase
      */
     private $dateFilter;
     /**
-     * @var \Zend_Filter_Input | MockObject
+     * @var \Magento\Framework\Filter\FilterInput | MockObject
      */
     private $filter;
     /**
@@ -50,9 +50,9 @@ class DateTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->filterFactory = $this->createMock(\Zend_Filter_InputFactory::class);
+        $this->filterFactory = $this->createMock(\Magento\Framework\Filter\FilterInputFactory::class);
         $this->dateFilter = $this->createMock(DateFilter::class);
-        $this->filter = $this->createMock(\Zend_Filter_Input::class);
+        $this->filter = $this->createMock(\Magento\Framework\Filter\FilterInput::class);
         $this->date = new Date(
             ['field1', 'field2', 'field3'],
             $this->filterFactory,
